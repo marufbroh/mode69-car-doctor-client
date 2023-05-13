@@ -2,7 +2,7 @@ import React from 'react';
 import logo from '../../assets/logo.svg'
 const Footer = () => {
     return (
-        <section className='bg-base-200'>
+        <section className='bg-black'>
             <footer className="footer p-10  text-base-content mx-auto container ">
                 <div>
                     <img src={logo} alt="" />

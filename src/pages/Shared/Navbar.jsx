@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../../assets/logo.svg'
+import { AuthContext } from '../../providers/AuthProviders';
 
 const Navbar = () => {
+    const { user, logOut } = useContext(AuthContext)
     return (
         <section className='bg-base-100 my-6'>
             <div className="navbar container mx-auto">
@@ -35,6 +37,10 @@ const Navbar = () => {
                         <li><Link>Services</Link></li>
                         <li><Link>Blog</Link></li>
                         <li><Link>Contact</Link></li>
+                        {user ?
+                            <button onClick={() => logOut()}>Logout</button> :
+                            <li><Link to={'/login'}>Login</Link></li>
+                        }
                     </ul>
                 </div>
                 <div className="navbar-end">
