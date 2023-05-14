@@ -7,7 +7,9 @@ const Navbar = () => {
     const { user, logOut } = useContext(AuthContext)
     const handleLogout = () => {
         logOut()
-            .then(() => {})
+            .then(() => {
+                localStorage.removeItem('car-access-token')
+            })
             .catch(error => {
                 console.log(error);
             })
@@ -46,8 +48,8 @@ const Navbar = () => {
                         <li><Link>Contact</Link></li>
                         {user ?
                             <>
-                            <li><Link to={'/bookings'}>My Bookings</Link></li>
-                            <button onClick={handleLogout}>Logout</button>
+                                <li><Link to={'/bookings'}>My Bookings</Link></li>
+                                <button onClick={handleLogout}>Logout</button>
                             </> :
                             <li><Link to={'/login'}>Login</Link></li>
                         }
