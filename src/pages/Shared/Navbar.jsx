@@ -5,6 +5,13 @@ import { AuthContext } from '../../providers/AuthProviders';
 
 const Navbar = () => {
     const { user, logOut } = useContext(AuthContext)
+    const handleLogout = () => {
+        logOut()
+            .then(() => {})
+            .catch(error => {
+                console.log(error);
+            })
+    }
     return (
         <section className='bg-base-100 my-6'>
             <div className="navbar container mx-auto">
@@ -38,7 +45,10 @@ const Navbar = () => {
                         <li><Link>Blog</Link></li>
                         <li><Link>Contact</Link></li>
                         {user ?
-                            <button onClick={() => logOut()}>Logout</button> :
+                            <>
+                            <li><Link to={'/bookings'}>My Bookings</Link></li>
+                            <button onClick={handleLogout}>Logout</button>
+                            </> :
                             <li><Link to={'/login'}>Login</Link></li>
                         }
                     </ul>
