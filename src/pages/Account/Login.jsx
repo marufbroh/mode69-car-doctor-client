@@ -3,6 +3,7 @@ import loginImg from '../../assets/images/login/login.svg'
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../providers/AuthProviders';
 import { toast } from 'react-hot-toast';
+import SocialLogin from '../Shared/SocialLogin';
 
 const Login = () => {
     const { signIn } = useContext(AuthContext);
@@ -19,26 +20,11 @@ const Login = () => {
         signIn(email, password)
             .then(result => {
                 const user = result.user;
-                const loggedUser = {
-                    email: user.email
-                }
-                console.log(loggedUser);
+                // console.log(user);
+                navigate(from, { replace: true })
                 toast.success("User Successfully Logged")
 
-                fetch('http://localhost:5000/jwt', {
-                    method: "POST",
-                    headers: {
-                        "content-type": "application/json",
-
-                    },
-                    body: JSON.stringify(loggedUser)
-                })
-                    .then(res => res.json())
-                    .then(data => {
-                        console.log('jwt response', data);
-                        localStorage.setItem('car-access-token', data.token)
-                        navigate(from, { replace: true })
-                    })
+                
                 form.reset()
             })
             .catch(error => {
@@ -75,6 +61,7 @@ const Login = () => {
                             <p className="text-sm text-center text-gray-500">Don't have an account? <Link to={"/register"} className='underline'>Register</Link></p>
                             <span className="border-b w-1/5 md:w-1/4"></span>
                         </div>
+                        <SocialLogin />
                         {/* <div className='mt-4'>
                             {
                                 error ? <p className="text-sm text-center text-red-600">

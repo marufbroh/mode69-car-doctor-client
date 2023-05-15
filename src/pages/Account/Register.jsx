@@ -3,9 +3,10 @@ import { Link } from 'react-router-dom';
 import signupImg from '../../assets/images/login/login.svg'
 import { AuthContext } from '../../providers/AuthProviders';
 import toast from 'react-hot-toast';
+import SocialLogin from '../Shared/SocialLogin';
 
 const Register = () => {
-    const { createUser ,updateUserData} = useContext(AuthContext)
+    const { createUser, updateUserData } = useContext(AuthContext)
     const handleRegister = event => {
         event.preventDefault();
         const form = event.target;
@@ -22,7 +23,7 @@ const Register = () => {
         createUser(email, password)
             .then(result => {
                 const loggedUser = result.user;
-                console.log(loggedUser);
+                // console.log(loggedUser);
                 updateUserData(name)
                 toast.success("User Successfully Created")
                 form.reset()
@@ -62,6 +63,7 @@ const Register = () => {
                             <p className="text-sm text-center text-gray-500">Already have an account? <Link to={"/login"} className='underline'>Login</Link></p>
                             <span className="border-b w-1/5 md:w-1/4"></span>
                         </div>
+                        <SocialLogin />
                         {/* <div className='mt-4'>
                             {
                                 error ? <p className="text-sm text-center text-red-600">

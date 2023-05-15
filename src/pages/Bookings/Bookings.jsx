@@ -8,7 +8,7 @@ const Bookings = () => {
     const [bookings, setBookings] = useState([])
     const navigate = useNavigate()
     // console.log(bookings);
-    const URL = `http://localhost:5000/orders?email=${user?.email}`
+    const URL = `https://car-doctor-server-ochre-nine.vercel.app/orders?email=${user?.email}`
     useEffect(() => {
         fetch(URL, {
             method: "GET",
@@ -30,12 +30,12 @@ const Bookings = () => {
     const handleDelete = (id) => {
         const prossed = confirm("Are you sure want to delete")
         if (prossed) {
-            fetch(`http://localhost:5000/orders/${id}`, {
+            fetch(`https://car-doctor-server-ochre-nine.vercel.app/orders/${id}`, {
                 method: "DELETE"
             })
                 .then(res => res.json())
                 .then(data => {
-                    console.log(data);
+                    // console.log(data);
                     const remaining = bookings.filter(booking => booking._id !== id)
                     setBookings(remaining)
                 })
@@ -43,7 +43,7 @@ const Bookings = () => {
     }
 
     const bookingBookingConfirm = id => {
-        fetch(`http://localhost:5000/orders/${id}`, {
+        fetch(`https://car-doctor-server-ochre-nine.vercel.app/orders/${id}`, {
             method: "PATCH",
             headers: {
                 "content-type": "application/json"
@@ -52,7 +52,7 @@ const Bookings = () => {
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data);
+                // console.log(data);
                 if (data.modifiedCount > 0) {
                     const remaining = bookings.filter(booking => booking._id !== id)
                     const updated = bookings.find(booking => booking._id === id)

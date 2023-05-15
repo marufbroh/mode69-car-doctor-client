@@ -1,8 +1,9 @@
 import React, { createContext, useEffect, useState } from 'react';
-import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut, updateProfile } from "firebase/auth";
+import { GoogleAuthProvider, createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from "firebase/auth";
 import { app } from '../firebase/firebase.config';
 
 const auth = getAuth(app)
+const googleProvider = new GoogleAuthProvider()
 export const AuthContext = createContext(null)
 
 const AuthProviders = ({ children }) => {
@@ -23,7 +24,7 @@ const AuthProviders = ({ children }) => {
             // Profile updated!
             // ...
         }).catch((error) => {
-            console.log(error.message);
+            // console.log(error.message);
             // An error occurred
             // ...
         });
@@ -34,10 +35,40 @@ const AuthProviders = ({ children }) => {
         return signInWithEmailAndPassword(auth, email, password)
     }
 
+    const googleSignin = () => {
+        setLoading(true)
+        return signInWithPopup(auth, googleProvider)
+    }
+
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, currentUser => {
             setUser(currentUser)
             setLoading(false)
+
+            if (currentUser && currentUser.email) {
+                const loggedUser = {
+                    email: currentUser.email
+                }
+
+                fetch('https://car-doctor-server-ochre-nine.vercel.app/jwt', {
+                    method: "POST",
+                    headers: {
+                        "content-type": "application/json",
+
+                    },
+                    body: JSON.stringify(loggedUser)
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        // console.log('jwt response', data);
+                        localStorage.setItem('car-access-token', data.token)
+
+                    })
+            }
+            else {
+                localStorage.removeItem('car-access-token')
+            }
+
         })
         return () => {
             unsubscribe()
@@ -56,6 +87,7 @@ const AuthProviders = ({ children }) => {
         createUser,
         updateUserData,
         signIn,
+        googleSignin,
         logOut,
     }
     return (

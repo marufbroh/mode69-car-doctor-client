@@ -5,7 +5,7 @@ import { AuthContext } from '../../providers/AuthProviders';
 const Checkout = () => {
     const { user } = useContext(AuthContext)
     const service = useLoaderData();
-    console.log(service);
+    // console.log(service);
     const { price, title, _id, img } = service
     // console.log(service);
     const handleCheckout = event => {
@@ -17,9 +17,9 @@ const Checkout = () => {
         // const dueAmmount = form.due.value;
         const message = form.message.value;
         const checkoutOrder = { customerName: name, date, email, service: title, service_id: _id, img: img, price: price, message };
-        console.log(checkoutOrder);
+        // console.log(checkoutOrder);
 
-        fetch('http://localhost:5000/orders', {
+        fetch('https://car-doctor-server-ochre-nine.vercel.app/orders', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
@@ -28,7 +28,7 @@ const Checkout = () => {
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data);
+                // console.log(data);
             })
 
     }
